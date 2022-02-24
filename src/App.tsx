@@ -1,13 +1,21 @@
-import Tile from './components/LetterBox'
-import './App.css'
-
+import Tile from './components/LetterBox';
+import Word from './components/Word';
+import ClearWord from './components/ClearWord';
+import Layout from './components/Layout';
+import Grid from './components/Grid';
 function App() {
-
-  return (<main>
-    <Tile letter="A" />
-    <Tile letter="b" />
-    <Tile letter="c" />
-  </main>)
+  const letters = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p']
+  return (<Layout>
+    <ClearWord />
+    <Grid>
+      {
+        letters.map(letter =>
+          <Tile key={letter} letter={letter} />
+        )
+      }
+    </Grid>
+    <Word words={['a', 'b']} />
+  </Layout>)
 }
 
 export default App
