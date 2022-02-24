@@ -2,6 +2,11 @@ import styled from 'styled-components';
 
 const WordBox = styled.div`
   border: 2px solid #979797;
+  grid-column: 2;
+  grid-row: 10;
+  @media(max-width: 768px){
+    grid-column: 1;
+  }
   padding: 8px;
   height: 42px;
   display: flex;

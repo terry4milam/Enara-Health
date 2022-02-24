@@ -1,19 +1,17 @@
 import styled from 'styled-components';
 
 export const Grid = styled.div`
+  grid-column: 1;
+  grid-row: 2 / -1;
   display: grid;
-  grid-area: main;
-  grid-template-columns: repeat(4, 62px);
-  grid-template-rows: repeat(4, 62px);
-  column-gap: 2px;
-  row-gap: 2px;
-  align-self:center;
-  @media (min-width: 768px){
-    grid-template-columns: repeat(4, 86px);
-    grid-template-rows: repeat(4, 86px);
-    column-gap: 4px;
-    row-gap: 4px;
-    align-self: flex-start;
+  grid-template-columns: repeat(4, 86px);
+  grid-template-rows: repeat(4, 86px);
+  grid-gap: 4px;
+  @media (max-width: 768px){
+    grid-template-columns: repeat(4, 62px);
+    grid-template-rows: repeat(4, 62px);
+    grid-gap: 2px;
+    grid-row: 5;
   }
 `
 

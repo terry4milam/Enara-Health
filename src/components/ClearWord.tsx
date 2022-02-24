@@ -27,12 +27,17 @@ const CloseIcon = styled.span`
 `
 const ClearBtn = styled.button`
   background: transparent;
+  grid-column: 2;
+  grid-row: 2;
   border: none;
   display: flex;
   align-items: center;
   justify-content: flex-end;
   cursor: pointer;
-  
+  @media (max-width: 768px)  {
+    grid-column: 1;
+    grid-row:1;
+  }
 `
 const BtnLabel = styled.span`
   color: #bbbbbb;

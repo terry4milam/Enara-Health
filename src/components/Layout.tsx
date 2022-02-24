@@ -1,13 +1,16 @@
 import styled from "styled-components";
 
 const Main = styled.main`
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
+  display: grid;
+  grid-template-columns: repeat(2, 410px);
+  grid-template-rows: repeat(10, .5fr);
   padding: 2em;
   max-width: 820px;
   margin: 0 auto;
-  height: 90vh;
+  @media (max-width: 768px) {
+    grid-template-columns: 1fr;
+    height: 90vh;
+  }
 `
 type ILayout = {
   children: JSX.Element[]
