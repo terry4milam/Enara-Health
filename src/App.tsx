@@ -23,20 +23,23 @@ function App() {
       setLetters(boardA!.board)
     }
     if (word.length > 0) {
-      setIsValidWord(['lala', 'lilo', 'abc'].includes(word.toLowerCase()))
+      setIsValidWord(wordChecker())
     }
   })
   if (fetchingA) {
-    return <span>prelaod</span>
+    return (<span>Loading...</span>)
+  }
+  const wordChecker = (): boolean => {
+    return ['mina', 'cafe'].includes(word.toLowerCase());
   }
   const restart = () => {
     setWord('')
     setIsValidWord(null)
+    setSelectedWords([])
   }
   const setWordArr = (w: string) => {
     setWord(word.concat('', w))
     setSelectedWords([...selectedWords, w])
-    console.log({ word, selectedWords })
   }
   return (<Layout>
     <Restart cleanAll={restart} />
@@ -47,6 +50,7 @@ function App() {
             key={letter}
             letter={letter}
             valid={isValidWord}
+            disabled={selectedWords.includes(letter)}
             action={letter => setWordArr(letter)} />
         )
       }

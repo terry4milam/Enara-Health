@@ -26,23 +26,26 @@ const TileSpan = styled.span`
 interface ITile {
   letter: string
   action: Dispatch<any>
-  valid: boolean | null
+  valid: boolean | null,
+  disabled: boolean
 }
-const Tile = ({letter, action, valid}: ITile): JSX.Element => {
+const Tile = ({ letter, action, valid, disabled }: ITile): JSX.Element => {
   const [classTile, setClassTile] = useState<string>('')
   const [usedWord, setUsedWord] = useState<string[]>([])
   useEffect(() => {
-    if (typeof valid === 'boolean'){
-      setClassTile(valid ? 'available':'choosen')
+    if (typeof valid === 'boolean' && disabled) {
+      setClassTile(valid ? 'available' : 'choosen')
+    } else {
+      setClassTile('')
     }
   })
   const chooseTile = () => {
-    
+
     action(letter)
     setUsedWord([...usedWord, letter])
-    console.log({letter, usedWord})
+    console.log({ letter, usedWord, disabled })
   }
-  return (<TileBtn className={classTile} onClick={chooseTile}>
+  return (<TileBtn className={classTile} onClick={chooseTile} disabled={disabled}>
     <TileSpan className={classTile}>
       {letter}
     </TileSpan>
