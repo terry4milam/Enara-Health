@@ -7,8 +7,8 @@ export default function useFetch<T = unknown>(url: string) {
   const [error, setError] = useState(false)
   useEffect(() => {
     axios.get(url)
-      .then(response => {
-        setData(response.data)
+      .then(({ data }) => {
+        setData(data)
       })
       .catch(() => {
         setError(true)

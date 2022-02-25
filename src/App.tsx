@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Tile from './components/LetterBox';
 import Word from './components/Word';
 import ClearWord from './components/ClearWord';
@@ -9,7 +9,12 @@ import useFetch from './hooks/useFetch';
 function App() {
   const { data, isFetching, error } = useFetch('./src/assets/demo.json')
   const [letters, setLetters] = useState([])
-  console.log({ data, isFetching, error });
+  useEffect(() => {
+    if (!isFetching) {
+      setLetters(data.board)
+    }
+  })
+
   return (<Layout>
     <ClearWord />
     <Grid>
