@@ -7,13 +7,14 @@ const BtnLabel = styled.span`
   color: #bbbbbb;
 `
 interface ICleanProps {
-  cleanAll: Function
+  cleanAll: Function,
+  isDisabled: boolean
 }
 const Restart = (props: ICleanProps) => {
   const clickHandler = () => {
     props.cleanAll()
   }
-  return (<ClearBtn onClick={clickHandler}>
+  return (<ClearBtn onClick={clickHandler} disabled={props.isDisabled}>
     <BtnLabel>clear word</BtnLabel>
     <CloseIcon />
   </ClearBtn>)

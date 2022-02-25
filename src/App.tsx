@@ -14,7 +14,6 @@ interface IDictionary {
 }
 
 function App() {
-  const { data: boardA, isFetching: fetchingA } = useFetch<IBoard>('./src/assets/test-board-1.json')
   const { data: boardB, isFetching: fetchingB } = useFetch<IBoard>('./src/assets/test-board-2.json')
   const { data: dictionaryData } = useFetch<IDictionary>('./src/assets/dictionary.json')
   const [letters, setLetters] = useState<string[] | null>(null)
@@ -29,8 +28,8 @@ function App() {
       setIsValidWord(wordChecker())
     }
   })
-  if (fetchingA) {
-    return (<span>Loading...</span>)
+  if (fetchingB) {
+    return (<span>Loading board...</span>)
   }
   const wordChecker = (): boolean => {
     if (!dictionaryData?.words) {
@@ -49,7 +48,7 @@ function App() {
     setSelectedWords([...selectedWords, index])
   }
   return (<Layout>
-    <Restart cleanAll={restart} />
+    <Restart cleanAll={restart} isDisabled={word.length === 0} />
     <Grid>
       {
         letters?.map((letter: string, index) =>
