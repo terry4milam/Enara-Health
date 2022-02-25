@@ -6,12 +6,14 @@ import Layout from './components/Layout';
 import Grid from './components/Grid';
 import useFetch from './hooks/useFetch';
 
+type IBoard = string[]
+
 function App() {
-  const { data, isFetching, error } = useFetch('./src/assets/demo.json')
-  const [letters, setLetters] = useState([])
+  const { data: dataBoard, isFetching } = useFetch<IBoard>('./src/assets/demo.json')
+  const [letters, setLetters] = useState<IBoard | null>([])
   useEffect(() => {
     if (!isFetching) {
-      setLetters(data.board)
+      setLetters(dataBoard)
     }
   })
 
@@ -19,7 +21,7 @@ function App() {
     <ClearWord />
     <Grid>
       {
-        letters.map((letter: string) =>
+        letters?.map((letter: string) =>
           <Tile key={letter} letter={letter} />
         )
       }
