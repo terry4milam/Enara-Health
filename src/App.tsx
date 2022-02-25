@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import Tile from './components/LetterBox';
 import Word from './components/Word';
 import ClearWord from './components/ClearWord';
