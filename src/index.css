@@ -11,6 +11,10 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
-main{
+#root{
   background-color: white;
+  display:flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
 }
