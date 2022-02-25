@@ -40,10 +40,8 @@ const Tile = ({ letter, action, valid, disabled }: ITile): JSX.Element => {
     }
   })
   const chooseTile = () => {
-
     action(letter)
     setUsedWord([...usedWord, letter])
-    console.log({ letter, usedWord, disabled })
   }
   return (<TileBtn className={classTile} onClick={chooseTile} disabled={disabled}>
     <TileSpan className={classTile}>

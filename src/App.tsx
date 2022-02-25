@@ -9,18 +9,21 @@ import useFetch from './hooks/useFetch';
 interface IBoard {
   board: string[]
 }
+interface IDictionary {
+  words: string[]
+}
 
 function App() {
-  const { data: boardA, isFetching: fetchingA } = useFetch<IBoard>('./src/assets/demo.json')
-  const { data: boardB, isFetching: fetchingB } = useFetch<IBoard>('./src/assets/demo.json')
+  const { data: boardA, isFetching: fetchingA } = useFetch<IBoard>('./src/assets/test-board-1.json')
+  const { data: boardB, isFetching: fetchingB } = useFetch<IBoard>('./src/assets/test-board-2.json')
+  const { data: dictionaryData } = useFetch<IDictionary>('./src/assets/dictionary.json')
   const [letters, setLetters] = useState<string[] | null>(null)
   const [word, setWord] = useState<string>('')
-  const [selectedWords, setSelectedWords] = useState<string[]>([])
+  const [selectedWords, setSelectedWords] = useState<number[]>([])
   const [isValidWord, setIsValidWord] = useState<boolean | null>(null)
   useEffect(() => {
-    console.log({ boardA, boardB, fetchingA, word })
-    if (!fetchingA) {
-      setLetters(boardA!.board)
+    if (!fetchingB) {
+      setLetters(boardB!.board)
     }
     if (word.length > 0) {
       setIsValidWord(wordChecker())
@@ -30,28 +33,32 @@ function App() {
     return (<span>Loading...</span>)
   }
   const wordChecker = (): boolean => {
-    return ['mina', 'cafe'].includes(word.toLowerCase());
+    if (!dictionaryData?.words) {
+      return false
+    }
+    return dictionaryData.words.includes(word.toLowerCase());
   }
   const restart = () => {
     setWord('')
     setIsValidWord(null)
     setSelectedWords([])
   }
-  const setWordArr = (w: string) => {
-    setWord(word.concat('', w))
-    setSelectedWords([...selectedWords, w])
+  const setWordArr = (letter: string, index: number) => {
+    setWord(word.concat('', letter))
+    console.log({ selecteds: [...selectedWords, index], exist: selectedWords.includes(index) })
+    setSelectedWords([...selectedWords, index])
   }
   return (<Layout>
     <Restart cleanAll={restart} />
     <Grid>
       {
-        letters?.map((letter: string) =>
+        letters?.map((letter: string, index) =>
           <Tile
-            key={letter}
+            key={index}
             letter={letter}
             valid={isValidWord}
-            disabled={selectedWords.includes(letter)}
-            action={letter => setWordArr(letter)} />
+            disabled={selectedWords.includes(index)}
+            action={() => setWordArr(letter, index)} />
         )
       }
     </Grid>
