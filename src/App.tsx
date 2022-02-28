@@ -1,45 +1,68 @@
-import { useState } from 'react'
-import logo from './logo.svg'
-import './App.css'
+import { useState, useEffect } from 'react';
+import Tile from './components/Tile';
+import WordCreator from './components/WordCreator';
+import Restart from './components/Restart';
+import Layout from './components/Layout';
+import Grid from './components/styled/Grid';
+import useFetch from './hooks/useFetch';
+
+interface IBoard {
+  board: string[]
+}
+interface IDictionary {
+  words: string[]
+}
 
 function App() {
-  const [count, setCount] = useState(0)
-
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>Hello Vite + React!</p>
-        <p>
-          <button type="button" onClick={() => setCount((count) => count + 1)}>
-            count is: {count}
-          </button>
-        </p>
-        <p>
-          Edit <code>App.tsx</code> and save to test HMR updates.
-        </p>
-        <p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-          {' | '}
-          <a
-            className="App-link"
-            href="https://vitejs.dev/guide/features.html"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Vite Docs
-          </a>
-        </p>
-      </header>
-    </div>
-  )
+  const { data: boardB, isFetching: fetchingB } = useFetch<IBoard>('./src/assets/test-board-2.json')
+  const { data: dictionaryData } = useFetch<IDictionary>('./src/assets/dictionary.json')
+  const [letters, setLetters] = useState<string[] | null>(null)
+  const [word, setWord] = useState<string>('')
+  const [selectedWords, setSelectedWords] = useState<number[]>([])
+  const [isValidWord, setIsValidWord] = useState<boolean | null>(null)
+  useEffect(() => {
+    if (!fetchingB) {
+      setLetters(boardB!.board)
+    }
+    if (word.length > 0) {
+      setIsValidWord(wordChecker())
+    }
+  })
+  if (fetchingB) {
+    return (<span>Loading board...</span>)
+  }
+  const wordChecker = (): boolean => {
+    if (!dictionaryData?.words) {
+      return false
+    }
+    return dictionaryData.words.includes(word.toLowerCase());
+  }
+  const restart = () => {
+    setWord('')
+    setIsValidWord(null)
+    setSelectedWords([])
+  }
+  const setWordArr = (letter: string, index: number) => {
+    setWord(word.concat('', letter))
+    console.log({ selecteds: [...selectedWords, index], exist: selectedWords.includes(index) })
+    setSelectedWords([...selectedWords, index])
+  }
+  return (<Layout>
+    <Restart cleanAll={restart} isDisabled={word.length === 0} />
+    <Grid>
+      {
+        letters?.map((letter: string, index) =>
+          <Tile
+            key={index}
+            letter={letter}
+            valid={isValidWord}
+            disabled={selectedWords.includes(index)}
+            action={() => setWordArr(letter, index)} />
+        )
+      }
+    </Grid>
+    <WordCreator word={word} valid={isValidWord} />
+  </Layout>)
 }
 
 export default App
