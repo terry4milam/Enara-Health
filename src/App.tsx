@@ -14,8 +14,8 @@ interface IDictionary {
 }
 
 function App() {
-  const { data: boardB, isFetching: fetchingB } = useFetch<IBoard>('./src/assets/test-board-2.json')
-  const { data: dictionaryData } = useFetch<IDictionary>('./src/assets/dictionary.json')
+  const { data: boardB, isFetching: fetchingB } = useFetch<IBoard>('./test-board-2.json')
+  const { data: dictionaryData } = useFetch<IDictionary>('./dictionary.json')
   const [letters, setLetters] = useState<string[] | null>(null)
   const [word, setWord] = useState<string>('')
   const [selectedWords, setSelectedWords] = useState<number[]>([])
